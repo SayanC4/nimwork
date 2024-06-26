@@ -5,7 +5,8 @@ import wintables as wt
 print(wt.win_condition({1, 2, 3}))
 #print(wt.OneHeapWinTable(20, {1, 2, 3}))
 
-def test_games(rng: range, moves: set[int], player_type: str, p_w: float, p_l: float, verbose=False):
+def test_games(rng: range, moves: set[int], player_type: str, 
+               p_w: float, p_l: float, verbose=False):
   similarities = {0: 1.0}
   for i in rng:
     game = OneHeapNimGame(i, moves, player_type, (p_w, p_l))

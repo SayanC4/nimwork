@@ -3,14 +3,15 @@ import wintables as wt
 
 class OneHeapNimGame:
   def __init__(self, heap: int, moves: set[int] | int, player_type: str,
-               accuracies: tuple[float, float]=(0.0, 0.0)):
-                                      # winning pos, losing pos
+               accuracies: tuple[float, float]=(
+                 0.0,   # winning pos. agent's accuracy
+                 0.0)): # losing pos. agent's accuracy
     self.heap = heap
     self.moves = set(range(1, moves + 1) # n -> 1, 2, ... n
                       if isinstance(moves, int) else moves)
     self.wintable = wt.OneHeapWinTable(heap, moves)
     accs = (accuracies if self.wintable[self.heap] == "I" 
-      else (accuracies[1], accuracies[0]))
+            else (accuracies[1], accuracies[0]))
     match player_type:
       case "perfect":
         self.one = na.OneHeapPerfectAgent(self, "I")

@@ -31,10 +31,8 @@ class OneHeapRandomAgent(OneHeapNimAgent):
     
   def move(self) -> int:
     g = self.game
-    # self.winning = g.wintable[g.heap] == self.pos
     optimal = random() < self.accuracy
     if optimal:
-      # if self.winning:
       for m in g.moves:
         spec = g.heap - m
         if spec >= 0 and g.wintable[spec] == "II":
@@ -50,10 +48,8 @@ class OneHeapCleverAgent(OneHeapNimAgent):
     
   def move(self) -> int:
     g = self.game
-    # self.winning = g.wintable[g.heap] == "I"
     optimal = random() < self.accuracy
     if optimal:
-      # if self.winning:
       for m in g.moves:
         spec = g.heap - m
         if spec >= 0 and g.wintable[spec] == "II":
