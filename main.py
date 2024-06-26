@@ -21,7 +21,7 @@ def test_games(rng: range, moves: set[int], player_type: str,
 
 test_games(range(20, 21), {1, 2, 3}, "clever", 0.75, 0.5, True)
 
-print(f"{time.time() - start.time()} seconds")
+print(f"{time.time() - start} seconds")
 
 """
 TODO:
