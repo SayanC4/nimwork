@@ -32,15 +32,32 @@ class OneHeapWinTable(list):
       ret += '2' if g == "II" else '1'
     return ret
 
-def win_condition(moves: set[int]) -> str:
-  if 1 not in moves:
-    raise Exception("Currently, only games with 1 as a move are accepted.")
-  table = OneHeapWinTable(2 * sum(moves), moves)
-  twos = table.twostring()
-  size = len(twos)
-  for pd in range(size // 2,  0, -1):
-    reps = (size + pd) // pd
-    if (twos[:pd] * reps).startswith(twos):
-      two_wins = [i for i in range(pd) if twos[i] == '2']
-      return f"n = {two_wins} (mod {pd}) -> II wins, else I"
-  return "No condition interpretable."
+  def win_condition(moves: set[int]) -> str:
+    if 1 not in moves:
+      raise Exception("Currently, only games with 1 as a move are accepted.")
+    table = OneHeapWinTable(2 * sum(moves), moves)
+    twos = table.twostring()
+    size = len(twos)
+    for pd in range(size // 2,  0, -1):
+      reps = (size + pd) // pd
+      if (twos[:pd] * reps).startswith(twos):
+        two_wins = [i for i in range(pd) if twos[i] == '2']
+        return f"n = {two_wins} (mod {pd}) -> II wins, else I"
+    return "No condition interpretable."
+  
+  @staticmethod
+  def win_function(moves: set[int]):
+    if 1 not in moves:
+      raise Exception("Currently, only games with 1 as a move are accepted.")
+    table = OneHeapWinTable(2 * sum(moves), moves)
+    twos = table.twostring()
+    size = len(twos)
+    for pd in range(size // 2,  0, -1):
+      reps = (size + pd) // pd
+      if (twos[:pd] * reps).startswith(twos):
+        two_wins = [i for i in range(pd) if twos[i] == '2']
+        def f(n: int):
+          if n % pd in two_wins:
+            return "II"
+          return "I"
+        return f

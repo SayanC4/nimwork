@@ -9,8 +9,8 @@ class OneHeapNimGame:
     self.heap = heap
     self.moves = set(range(1, moves + 1) # n -> 1, 2, ... n
                       if isinstance(moves, int) else moves)
-    self.wintable = wt.OneHeapWinTable(heap, moves)
-    accs = (accuracies if self.wintable[self.heap] == "I" 
+    self.win_function = wt.OneHeapWinTable.win_function(moves)
+    accs = (accuracies if self.win_function(self.heap) == "I" 
             else (accuracies[1], accuracies[0]))
     match player_type:
       case "perfect":

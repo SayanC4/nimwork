@@ -5,7 +5,6 @@ class OneHeapNimAgent:
   def __init__(self, game: OneHeapNimGame, pos: str):
     self.game = game
     self.pos = pos
-    # self.winning = game.wintable[game.heap] == "I"
 
   def move(self) -> int:
     return 0
@@ -16,11 +15,9 @@ class OneHeapPerfectAgent(OneHeapNimAgent):
 
   def move(self) -> int:
     g = self.game
-    # self.winning = g.wintable[g.heap] == "I"
-    # if self.winning:
     for m in g.moves:
       spec = g.heap - m
-      if spec >= 0 and g.wintable[spec] == "II":
+      if spec >= 0 and g.win_function(spec) == "II":
         return m # send opponent to losing position (II-pos)
     return min(g.moves) # optimal while losing
 
@@ -35,7 +32,7 @@ class OneHeapRandomAgent(OneHeapNimAgent):
     if optimal:
       for m in g.moves:
         spec = g.heap - m
-        if spec >= 0 and g.wintable[spec] == "II":
+        if spec >= 0 and g.win_function(spec) == "II":
           return m # send opponent to II-pos
       return min(g.moves) # optimal while losing
     # random if suboptimal
@@ -52,8 +49,8 @@ class OneHeapCleverAgent(OneHeapNimAgent):
     if optimal:
       for m in g.moves:
         spec = g.heap - m
-        if spec >= 0 and g.wintable[spec] == "II":
+        if spec >= 0 and g.win_function(spec) == "II":
           return m # send opponent to II-pos
       return min(g.moves) # optimal while losing
     # suboptimal pathway
-    return max(g.moves) if g.wintable[g.heap] == "II" else min(g.moves)
+    return max(g.moves) if g.win_function(g.heap) == "II" else min(g.moves)
