@@ -1,4 +1,4 @@
-TODO:
+**TODO:**
 - Make test_games() command-line based (more interface-y too)
 - Get lots of data
 - Fix min/max move shenanigans
