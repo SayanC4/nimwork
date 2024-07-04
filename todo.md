@@ -1,5 +1,5 @@
 # TODO:
-- **Next meeting:** 7/5 @8 
+- **Next meeting:** 7/5 @8PM 
 - Make test_games() command-line based (more interface-y too)
 - Get lots of data
 - Fix min/max move shenanigans
