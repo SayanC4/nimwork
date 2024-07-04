@@ -15,14 +15,14 @@ class OneHeapWinTable(list):
     return rep[:-1]
 
   def expand(self, new: int):
-    if(new < self.size):
+    if new < self.size:
       return
     for n in range(self.size, new + 1):
       seconds = filter(lambda x: x >= 0, [n - m for m in self.valid_moves])
       self.append("I" if any(self[s] == "II" for s in seconds) else "II")
 
   def outcome(self, n: int) -> str:
-    if(n >= self.size):
+    if n >= self.size:
       self.expand(n)
     return self[n]
 
@@ -32,6 +32,7 @@ class OneHeapWinTable(list):
       ret += '2' if g == "II" else '1'
     return ret
 
+  @staticmethod
   def win_condition(moves: set[int]) -> str:
     if 1 not in moves:
       raise Exception("Currently, only games with 1 as a move are accepted.")
@@ -57,7 +58,5 @@ class OneHeapWinTable(list):
       if (twos[:pd] * reps).startswith(twos):
         two_wins = [i for i in range(pd) if twos[i] == '2']
         def f(n: int):
-          if n % pd in two_wins:
-            return "II"
-          return "I"
+          return "II" if n % pd in two_wins else "I"
         return f
