@@ -29,4 +29,8 @@ TODO:
     Write up coherent doc w/questions, conjectures, answers
       Try to prove conjectures
   Find various patterns
+    1, x, x + 1, x + 2
+    1, x, x + 2
+    1, x, x + 3
+      1, x, x + a?
 """
