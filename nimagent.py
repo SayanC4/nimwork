@@ -15,7 +15,7 @@ class OneHeapPerfectAgent(OneHeapNimAgent):
 
   def move(self) -> int:
     g = self.game
-    for m in g.moves:
+    for m in sorted(g.moves, reverse=True):
       spec = g.heap - m
       if spec >= 0 and g.win_function(spec) == "II":
         return m # send opponent to losing position (II-pos)
@@ -30,7 +30,7 @@ class OneHeapRandomAgent(OneHeapNimAgent):
     g = self.game
     optimal = random() < self.accuracy
     if optimal:
-      for m in g.moves:
+      for m in sorted(g.moves, reverse=True):
         spec = g.heap - m
         if spec >= 0 and g.win_function(spec) == "II":
           return m # send opponent to II-pos
@@ -47,7 +47,7 @@ class OneHeapCleverAgent(OneHeapNimAgent):
     g = self.game
     optimal = random() < self.accuracy
     if optimal:
-      for m in g.moves:
+      for m in sorted(g.moves, reverse=True):
         spec = g.heap - m
         if spec >= 0 and g.win_function(spec) == "II":
           return m # send opponent to II-pos
