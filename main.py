@@ -26,12 +26,17 @@ if ptype != "perfect":
       "Enter the accuracies of the winning- and losing-position players (space-separated): "
     ).split())
 
-start = time.time()
-
+#start = time.time()
+"""
+# test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
+with open("./write.txt", 'w') as writefile:
+  for i in range(8, 2, -1):
+    sim = test_games(range(100, 10000, 100), {1, 2, 3}, "random", 0.7, i / 10, False)
+    writefile.write(f"0.7 vs. {i / 10}")
+    writefile.write('\n'.join(map(str, list(sim.values()))))
+# print(f"{time.time() - start} seconds")
+"""
 test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
-
-print(f"{time.time() - start} seconds")
-
 """
 for x in range(1, 16, 2):
   moves = [1, x, x + 1, x + 2]
