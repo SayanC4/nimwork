@@ -2,11 +2,11 @@
 - **Next meeting:** 7/5 @8PM 
 - Make test_games() command-line based (more interface-y too)
 - Get lots of data
-- Fix min/max move shenanigans
+- Fix min/max move shenanigans (done)
 - Come up w/own questions
   - Write up coherent doc w/questions, conjectures, answers
     - Try to prove conjectures
-- Find various patterns
+- Find various patterns ("done")
   - 1, x, x + 1 (proven)
     - Odd:  0, 2, ... x - 1 mod 2x + 1
     - Even: 0, 2, ... x - 2 mod 2x
