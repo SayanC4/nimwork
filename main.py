@@ -14,7 +14,7 @@ def test_games(rng: range, moves: set[int], player_type: str,
       # print(f"Size {i}: \t{similarities[i]}")
       print(similarities[i])
   return similarities
-
+"""
 rng = list(map(int, input("Enter size bounds (inclusive) as 'lower upper step (optional)': ").split()))
 step = 1 if len(rng) < 3 else rng[2]
 low, upp = rng[0], rng[1] + 1
@@ -25,7 +25,7 @@ if ptype != "perfect":
   p_w, p_l = map(float, input(
       "Enter the accuracies of the winning- and losing-position players (space-separated): "
     ).split())
-
+"""
 #start = time.time()
 """
 # test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
@@ -36,9 +36,12 @@ with open("./write.txt", 'w') as writefile:
     writefile.write('\n'.join(map(str, list(sim.values()))))
 # print(f"{time.time() - start} seconds")
 """
-test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
+# test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
+
 """
-for x in range(1, 16, 2):
-  moves = [1, x, x + 1, x + 2]
+for x in range(1, 10, 1):
+  moves = [1, x, x + 1, x + 2, x + 3]
   print(f"{str(moves) + ':':<12} {wt.OneHeapWinTable.win_condition(set(moves))}")
 """
+
+print(wt.OneHeapWinTable(20, {1, 5, 7}))
