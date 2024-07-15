@@ -26,22 +26,23 @@ if ptype != "perfect":
       "Enter the accuracies of the winning- and losing-position players (space-separated): "
     ).split())
 """
-#start = time.time()
-"""
+#print(time.time())
+start = time.time()
 # test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
-with open("./write.txt", 'w') as writefile:
-  for i in range(8, 2, -1):
-    sim = test_games(range(100, 10000, 100), {1, 2, 3}, "random", 0.7, i / 10, False)
-    writefile.write(f"0.7 vs. {i / 10}")
-    writefile.write('\n'.join(map(str, list(sim.values()))))
-# print(f"{time.time() - start} seconds")
-"""
+"""with open("./write.txt", 'w') as writefile:
+  acc = 0.9
+  for i in range(4, 2, -1):
+    sim = test_games(range(100, 10000, 100), {1, 2, 3}, "clever", acc, i / 10, False)
+    writefile.write(f"\n--{acc} vs. {i / 10}--\n")
+    writefile.write('\n'.join(map(str, list(sim.values()))))"""
+test_games(range(100, 101, 1), {1, 2, 3}, "clever", 0.9, 0.3, True)
+print(f"{time.time() - start} seconds")
 # test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
-
+# test_games(range(100, 10001, 100), {1, 2, 3}, "random", 0.5, 0.3, True)
 """
 for x in range(1, 10, 1):
   moves = [1, x, x + 1, x + 2, x + 3]
   print(f"{str(moves) + ':':<12} {wt.OneHeapWinTable.win_condition(set(moves))}")
 """
 
-print(wt.OneHeapWinTable(20, {1, 5, 7}))
+#print(wt.OneHeapWinTable(20, {1, 5, 7}))
