@@ -1,3 +1,5 @@
+import math
+
 class OneHeapWinTable(list):
   def __init__(self, size: int, moves: set[int] | int):
     self.size = size
@@ -15,11 +17,12 @@ class OneHeapWinTable(list):
     return rep[:-1]
 
   def expand(self, new: int):
-    if new < self.size:
+    if new <= self.size + 1:
       return
     for n in range(self.size, new + 1):
       seconds = filter(lambda x: x >= 0, [n - m for m in self.valid_moves])
       self.append("I" if any(self[s] == "II" for s in seconds) else "II")
+    self.size = new
 
   def outcome(self, n: int) -> str:
     if n >= self.size:
@@ -60,3 +63,32 @@ class OneHeapWinTable(list):
         def f(n: int):
           return "II" if n % pd in two_wins else "I"
         return f
+
+def fsqrt(n: int):
+  return math.floor(math.sqrt(n))
+
+class SqrtNimWinTable(list):
+  def __init__(self, size: int):
+    self.size = 1
+    super().__init__(["II"])
+    self.expand(size)
+  
+  def expand(self, new: int):
+    if new <= self.size + 1:
+      return
+    valid_moves = list(range(1, fsqrt(self.size) + 1))
+    for n in range(self.size, new + 1):
+      max = fsqrt(n)
+      if max > valid_moves[-1]:
+        valid_moves.append(max)
+      seconds = filter(lambda x: x >= 0, [n - m for m in valid_moves])
+      self.append("I" if any(self[s] == "II" for s in seconds) else "II")
+
+  def __str__(self) -> str:
+    rep = "  Size Winner\n"
+    for n, w in enumerate(self):
+      rep += f"{n:>6} {w}\n"
+    return rep[:-1]
+
+if __name__ == "__main__":
+  print(SqrtNimWinTable(10000))
