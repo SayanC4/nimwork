@@ -91,4 +91,8 @@ class SqrtNimWinTable(list):
     return rep[:-1]
 
 if __name__ == "__main__":
-  print(SqrtNimWinTable(10000))
+  print(SqrtNimWinTable(100))
+
+  # TODO: 
+  # CASH: Implement
+  #   Amounts to a tensor win-table 
