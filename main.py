@@ -42,7 +42,7 @@ if ptype != "perfect":
       start = time.time()
       # writefile.write('\n'.join(map(str, list(sim.values()))))"""
 #print(f"Total: {time.time() - init} seconds")
-test_games(range(100, 10001, 100), {1, 2, 3}, "random", 0.4, 0.7, verbose=True)
+test_games(range(1, 101, 1), {1, 2, 3}, "random", 0.7, 0.7, verbose=True)
 # test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
 # test_games(range(100, 10001, 100), {1, 2, 3}, "random", 0.5, 0.3, True)
 """

@@ -60,25 +60,24 @@ class OneHeapWinTable(list):
       reps = (size + pd) // pd
       if (twos[:pd] * reps).startswith(twos):
         two_wins = [i for i in range(pd) if twos[i] == '2']
-        def f(n: int):
-          return "II" if n % pd in two_wins else "I"
-        return f
-
-def fsqrt(n: int):
-  return math.floor(math.sqrt(n))
+        return lambda n: "II" if n % pd in two_wins else "I"
 
 class SqrtNimWinTable(list):
   def __init__(self, size: int):
     self.size = 1
     super().__init__(["II"])
     self.expand(size)
+
+  @staticmethod
+  def fsqrt(n: int):
+    return math.floor(math.sqrt(n))
   
   def expand(self, new: int):
     if new <= self.size + 1:
       return
-    valid_moves = list(range(1, fsqrt(self.size) + 1))
+    valid_moves = list(range(1, SqrtNimWinTable.fsqrt(self.size) + 1))
     for n in range(self.size, new + 1):
-      max = fsqrt(n)
+      max = SqrtNimWinTable.fsqrt(n)
       if max > valid_moves[-1]:
         valid_moves.append(max)
       seconds = filter(lambda x: x >= 0, [n - m for m in valid_moves])
@@ -89,6 +88,8 @@ class SqrtNimWinTable(list):
     for n, w in enumerate(self):
       rep += f"{n:>6} {w}\n"
     return rep[:-1]
+
+# class OneHeapCashTable("""tensor?"""):
 
 if __name__ == "__main__":
   print(SqrtNimWinTable(100))
