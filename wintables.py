@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 class OneHeapWinTable(list):
   def __init__(self, size: int, moves: set[int] | int):
@@ -89,11 +90,44 @@ class SqrtNimWinTable(list):
       rep += f"{n:>6} {w}\n"
     return rep[:-1]
 
-# class OneHeapCashTable("""tensor?"""):
+
+class OneHeapCashTable():
+  def __init__(self, moves: set[int] = {1, 2, 3}, 
+               dims: tuple[int] = (0, 0, 0)): # ()
+    self.arr = np.array([[["II"]]], dtype=str)
+    self.moves = moves
+    self.dims = (1, 1, 1)
+    self.expand(dims)
+  
+  def __str__(self):
+    return ""
+  
+  def expand(self, ndims: tuple[int]):
+    n, d, e = self.dims
+    mxdims = tuple(max(o, n) for o, n in zip(self.dims, ndims))
+    tarr = np.zeros(mxdims, dtype=str)
+    tarr[:n, :d, :e] = self.arr[:n, :d, :e]
+
+    self.arr = tarr
+    self.dims = ndims
+
+@staticmethod
+def victor(size: int, c_one: int, c_two: int):
+  pass
 
 if __name__ == "__main__":
-  print(SqrtNimWinTable(100))
-
-  # TODO: 
-  # CASH: Implement
-  #   Amounts to a tensor win-table 
+  table = SqrtNimWinTable(1000)
+  repr = []
+  cnt = 0
+  for w in table[1:]:
+    if w == "II":
+      cnt += 1
+    repr.append(str(cnt))
+  with open("./write.txt", 'w') as out:
+    out.write('\n'.join(repr))
+  out.close()  
+  
+  
+# TODO:  
+# CASH: Implement
+#   Amounts to a tensor win-table 
