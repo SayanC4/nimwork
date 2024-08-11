@@ -2,7 +2,7 @@ import math
 import numpy as np
 
 class OneHeapWinTable(list):
-  def __init__(self, size: int, moves: set[int] | int):
+  def __init__(self, size: int, moves: set[int] | int = 3): # {1, 2, 3}
     self.size = size
     self.valid_moves = (range(1, moves + 1)
       if isinstance(moves, int) else list(moves))
@@ -92,27 +92,28 @@ class SqrtNimWinTable(list):
 
 
 class OneHeapCashTable():
-  def __init__(self, moves: set[int] = {1, 2, 3}, 
-               dims: tuple[int] = (0, 0, 0)): # ()
+  def __init__(self, moves: int | set[int] = 3, # {1, 2, 3}
+               dims: tuple[int, int, int] = (0, 0, 0)): # ()
     self.arr = np.array([[["II"]]], dtype=str)
-    self.moves = moves
+    self.valid_moves = (range(1, moves + 1)
+      if isinstance(moves, int) else list(moves))
     self.dims = (1, 1, 1)
     self.expand(dims)
   
   def __str__(self):
     return ""
   
-  def expand(self, ndims: tuple[int]):
+  def expand(self, newdims: tuple[int, int, int]):
     n, d, e = self.dims
-    mxdims = tuple(max(o, n) for o, n in zip(self.dims, ndims))
-    tarr = np.zeros(mxdims, dtype=str)
+    maxdims = tuple(max(o, n) for o, n in zip(self.dims, newdims))
+    tarr = np.zeros(maxdims, dtype=str)
     tarr[:n, :d, :e] = self.arr[:n, :d, :e]
-
+    
     self.arr = tarr
-    self.dims = ndims
+    self.dims = newdims
 
 @staticmethod
-def victor(size: int, c_one: int, c_two: int):
+def victor(size: int, c_one: int, c_two: int, moves: set[int]):
   pass
 
 if __name__ == "__main__":
