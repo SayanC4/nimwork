@@ -57,3 +57,47 @@ class OneHeapNimGame:
   
   def __repr__(self):
     return f"{self.heap} | Player {self.turn}"
+
+class OneHeapCashGame:
+  def __init__(self, dims: tuple[int, int, int], moves: set[int],
+               player_type: str, accuracies: tuple[float, float] = (0.0, 0.0)):
+    self.vals = dims
+    self.moves = moves
+    self.win_table = wt.OneHeapCashTable(moves, (x + 1 for x in dims))
+    accs = (accuracies if self.win_table.outcome(*dims) == "I" 
+            else (accuracies[1], accuracies[0]))
+    match player_type:
+      case "perfect":
+        self.one = na.PerfectCashAgent(self, "I")
+        self.two = na.PerfectCashAgent(self, "II")
+      case "clever":
+        self.one = na.CleverCashAgent(self, "I", accs[0])
+        self.two = na.CleverCashAgent(self, "II", accs[1])
+      case "random":
+        self.one = na.RandomCashAgent(self, "I", accs[0])
+        self.two = na.RandomCashAgent(self, "II", accs[1])
+      case _:
+        raise Exception(f"Invalid player type: {type}")
+    self.turn = "I"
+    self.terminal = any(d <= 0 for d in dims)
+  
+  def play(self):
+    curr: na.OneHeapCashAgent
+    if self.terminal:
+      self.turn = "II"
+    while not self.terminal:
+      curr = self.one if self.turn == "I" else self.two
+      self.vals = curr.move(self.vals, self.turn)
+      self.advance()
+    return self.turn # returns winning player
+  
+  def advance(self):
+    if any(v <= 0 for v in self.vals):
+      self.terminal = True
+    else:
+      #print(f"unterminated {self.vals}")
+      self.turn = "II" if self.turn == "I" else "I"
+
+if __name__ == "__main__":
+  game = OneHeapCashGame((4, 4, 14), {1, 3, 4}, "perfect")
+  print(game.play()) # II

@@ -1,5 +1,5 @@
 import math
-import numpy as np
+import time
 
 class OneHeapWinTable(list):
   def __init__(self, size: int, moves: set[int] | int):
@@ -38,8 +38,10 @@ class OneHeapWinTable(list):
 
   @staticmethod
   def win_condition(moves: set[int]) -> str:
+    if 0 in moves:
+      raise Exception("0 cannot be a move.")
     if 1 not in moves:
-      raise Exception("Currently, only games with 1 as a move are accepted.")
+      raise Exception("Only games with 1 as a move are accepted.")
     table = OneHeapWinTable(2 * sum(moves), moves)
     twos = table.twostring()
     size = len(twos)
@@ -93,40 +95,54 @@ class SqrtNimWinTable(list):
 
 class OneHeapCashTable():
   def __init__(self, moves: set[int] = {1, 2, 3}, 
-               dims: tuple[int] = (0, 0, 0)): # ()
-    self.arr = np.array([[["II"]]], dtype=str)
+               dims: tuple[int, int, int] = (0, 0, 0)): # (d, e, n)
+    if 0 in moves:
+      raise Exception("0 cannot be a move.")
+    if 1 not in moves:
+      raise Exception("Only games with 1 as a move are accepted.")
+    one, two, size = dims
+    self.arr = [[
+      ['' for _ in range(size)] # innermost: heap size
+      for _ in range(two)]      # intermediate: P2 dollars
+      for _ in range(one)]      # outermost: P1 dollars
+    for d in range(one):
+      for e in range(two):
+        for n in range(size):
+          if not self.arr[d][e][n]:
+            if d < 1 or n < 1:
+              self.arr[d][e][n] = "II"
+            else:
+              valid_moves = [m for m in moves if m <= d and m <= n]
+              # if can take and win even if it would bankrupt, "m <= d" else "m < d"
+              if any(self.arr[e][d - v][n - v] == "II" for v in valid_moves):
+                self.arr[d][e][n] = "I"
+                if all(self.arr[e][d - v][n - v] == '' for v in valid_moves):
+                  raise Exception(f"{d}{e}{n}: all sources undefined")
+              else:
+                self.arr[d][e][n] = "II"
     self.moves = moves
-    self.dims = (1, 1, 1)
-    self.expand(dims)
+    self.dims = dims
   
   def __str__(self):
     return ""
-  
-  def expand(self, ndims: tuple[int]):
-    n, d, e = self.dims
-    mxdims = tuple(max(o, n) for o, n in zip(self.dims, ndims))
-    tarr = np.zeros(mxdims, dtype=str)
-    tarr[:n, :d, :e] = self.arr[:n, :d, :e]
 
-    self.arr = tarr
-    self.dims = ndims
-
-@staticmethod
-def victor(size: int, c_one: int, c_two: int):
-  pass
+  def outcome(self, d: int, e: int, n: int) -> str:
+    assert([d, e, n][i] <= self.dims[i] for i in range(3))
+    return self.arr[d][e][n]
 
 if __name__ == "__main__":
-  table = SqrtNimWinTable(1000)
-  repr = []
-  cnt = 0
-  for w in table[1:]:
-    if w == "II":
-      cnt += 1
-    repr.append(str(cnt))
-  with open("./write.txt", 'w') as out:
-    out.write('\n'.join(repr))
-  out.close()  
-  
+  moves = set([int(x) for x in input("Enter moves (space-separated): ").split()])
+  dims = (
+    int(input("Player 1's cash: ")) + 1, 
+    int(input("Player 2's cash: ")) + 1, 
+    int(input("Heap size: ")) + 1
+  )
+  #start = time.time()
+  table = OneHeapCashTable(moves, dims)
+  dims = (x - 1 for x in dims)
+  print(f"Winner: Player {table.outcome(*dims)}")
+  #print(time.time() - start)
+  #print(table.arr)
   
 # TODO:  
 # CASH: Implement
