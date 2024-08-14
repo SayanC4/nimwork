@@ -2,7 +2,7 @@ import math
 import time
 
 class OneHeapWinTable(list):
-  def __init__(self, size: int, moves: set[int] | int):
+  def __init__(self, size: int, moves: set[int] | int = 3): # {1, 2, 3}
     self.size = size
     self.valid_moves = (range(1, moves + 1)
       if isinstance(moves, int) else list(moves))
