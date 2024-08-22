@@ -29,20 +29,20 @@ if ptype != "perfect":
     ).split())
 """
 # print(time.time())
-#init = start = time.time()
+init = start = time.time()
 # test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
-"""with open("./write.txt", 'w') as writefile:
-  for j in range(8, 2, -1):
+with open("./write.txt", 'w') as writefile:
+  for j in range(9, 2, -1):
     acc = j / 10
     for i in range(9, 2, -1):
       print(f"--{acc} vs. {i / 10}--")
       writefile.write(f"--{acc} vs. {i / 10}--\n")
-      test_games(range(10000, 10001, 100), {1, 2, 3}, "clever", acc, i / 10, writefile, True)
+      test_games(range(100, 10001, 100), {1, 3, 4}, "random", acc, i / 10, writefile, True)
       print(f"{time.time() - start} seconds")
       start = time.time()
-      # writefile.write('\n'.join(map(str, list(sim.values()))))"""
-#print(f"Total: {time.time() - init} seconds")
-test_games(range(1, 101, 1), {1, 2, 3}, "random", 0.7, 0.7, verbose=True)
+      # writefile.write('\n'.join(map(str, list(sim.values()))))
+print(f"Total: {time.time() - init} seconds")
+#test_games(range(1, 101, 1), {1, 2, 3}, "random", 0.7, 0.7, verbose=True)
 # test_games(range(low, upp, step), mvs, ptype, p_w, p_l, True)
 # test_games(range(100, 10001, 100), {1, 2, 3}, "random", 0.5, 0.3, True)
 """

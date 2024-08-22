@@ -65,9 +65,11 @@ class OneHeapWinTable(list):
         two_wins = [i for i in range(pd) if twos[i] == '2']
         return lambda n: "II" if n % pd in two_wins else "I"
 
-class SqrtNimWinTable(list):
-  def __init__(self, size: int):
+class FNimWinTable(list):
+  def __init__(self, size: int, f):
     self.size = 1
+    self.func = f
+    self.two_cml = [0] # [1]
     super().__init__(["II"])
     self.expand(size)
 
@@ -78,13 +80,25 @@ class SqrtNimWinTable(list):
   def expand(self, new: int):
     if new <= self.size + 1:
       return
-    valid_moves = list(range(1, SqrtNimWinTable.fsqrt(self.size) + 1))
+    remake = False
+    valid_moves = list(range(1, self.func(self.size) + 1))
     for n in range(self.size, new + 1):
-      max = SqrtNimWinTable.fsqrt(n)
-      if max > valid_moves[-1]:
-        valid_moves.append(max)
-      seconds = filter(lambda x: x >= 0, [n - m for m in valid_moves])
-      self.append("I" if any(self[s] == "II" for s in seconds) else "II")
+      if(remake):
+        valid_moves = list(range(1, self.func(n) + 1))
+        remake = False
+      if not valid_moves:
+        self.append("II")
+        remake = True
+      else:
+        max = self.func(n)
+        if max > valid_moves[-1]:
+          valid_moves.append(max)
+        seconds = filter(lambda x: x >= 0, [n - m for m in valid_moves])
+        self.append("I" if any(self[s] == "II" for s in seconds) else "II")
+      self.two_cml.append(self.two_cml[-1])
+      if self[-1] == "II":
+        self.two_cml[-1] += 1
+      # print(valid_moves)
 
   def __str__(self) -> str:
     rep = "  Size Winner\n"
@@ -131,6 +145,28 @@ class OneHeapCashTable():
     return self.arr[d][e][n]
 
 if __name__ == "__main__":
+  upp = int(input("Enter heap size upper limit: "))
+  toggle = input("[log]arithmic or [exp]onential: ")
+  if toggle == "log":
+    a = float(input("Enter the base of the log; enter anything <= 1 for e: "))
+    if a <= 1:
+      a = math.e
+    rnd = math.ceil
+    inn = math.log
+    print(f"f(n) = ⌈log base {'e' if a == math.e else a} (n)⌉")
+  elif toggle == "exp":
+    a = float(input("Enter the power of x, less than 1: "))
+    rnd = math.floor
+    inn = math.pow
+    print(f"f(n) = ⌊n ^ {a}⌋") 
+  table = FNimWinTable(upp, lambda x: rnd(inn(x, a)))
+  twos = []
+  for i, win in enumerate(table[1:]):
+    if win == "II":
+      twos.append(i + 1)
+  print(f"Player II wins for heap sizes of: {str(twos)[1:-1]}")
+  # print(table)
+  """
   moves = set([int(x) for x in input("Enter moves (space-separated): ").split()])
   dims = (
     int(input("Player 1's cash: ")) + 1, 
@@ -143,7 +179,4 @@ if __name__ == "__main__":
   print(f"Winner: Player {table.outcome(*dims)}")
   #print(time.time() - start)
   #print(table.arr)
-  
-# TODO:  
-# CASH: Implement
-#   Amounts to a tensor win-table 
+  """
