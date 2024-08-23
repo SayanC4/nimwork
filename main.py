@@ -37,7 +37,7 @@ with open("./write.txt", 'w') as writefile:
     for i in range(9, 2, -1):
       print(f"--{acc} vs. {i / 10}--")
       writefile.write(f"--{acc} vs. {i / 10}--\n")
-      test_games(range(100, 10001, 100), {1, 3, 4}, "random", acc, i / 10, writefile, True)
+      test_games(range(100, 10001, 100), {1, 3, 4}, "clever", acc, i / 10, writefile, True)
       print(f"{time.time() - start} seconds")
       start = time.time()
       # writefile.write('\n'.join(map(str, list(sim.values()))))
