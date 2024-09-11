@@ -56,13 +56,13 @@ class OneHeapWinTable(list):
   def win_function(moves: set[int]):
     if 1 not in moves:
       raise Exception("Currently, only games with 1 as a move are accepted.")
-    table = OneHeapWinTable(2 * sum(moves), moves)
-    twos = table.twostring()
+    bound = max(moves) * 2 ** (max(moves) + 1) # m2^(m+1)
+    twos = OneHeapWinTable(bound, moves).twostring()
     size = len(twos)
-    for pd in range(size // 2,  0, -1):
+    for pd in range(1, 1 + size // 2):
       reps = (size + pd) // pd
       if (twos[:pd] * reps).startswith(twos):
-        two_wins = [i for i in range(pd) if twos[i] == '2']
+        two_wins = {i for i in range(pd) if twos[i] == '2'}
         return lambda n: "II" if n % pd in two_wins else "I"
 
 class FNimWinTable(list):
