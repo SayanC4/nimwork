@@ -1,12 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-dfs = [pd.read_csv("./csvs/Random {1, 2, 3}.csv", header=None)]
-"""
+#dfs = [pd.read_csv("./csvs/Random {1, 2, 3}.csv", header=None)]
 dfs = [
-  pd.read_csv(f"./csvs/{game}.csv") for game in [
-    "Clever {1, 3, 4}", "Random {1, 2, 3}", "Random {1, 3, 4}"]
+  pd.read_csv(f"./csvs/{game}.csv", header=None) for game in [
+    "Clever {1, 3, 4}", "Random {1, 3, 4}"]
 ]
-"""
+
 if __name__ == "__main__":
   xax = range(100, 10001, 100)
   colors = ['', 'darkgreen', 'maroon', 'deepskyblue', 
