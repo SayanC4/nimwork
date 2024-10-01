@@ -1,11 +1,12 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-
+dfs = [pd.read_csv("./csvs/Random {1, 2, 3}.csv", header=None)]
+"""
 dfs = [
   pd.read_csv(f"./csvs/{game}.csv") for game in [
     "Clever {1, 3, 4}", "Random {1, 2, 3}", "Random {1, 3, 4}"]
 ]
-
+"""
 if __name__ == "__main__":
   xax = range(100, 10001, 100)
   colors = ['', 'darkgreen', 'maroon', 'deepskyblue', 
@@ -16,11 +17,14 @@ if __name__ == "__main__":
       plt.gca().set_ylim([0.0, 1.0])
       plt.grid(axis='both', color='0.75')    
       df = frame.iloc[:104, 8*x:8*(x+1)]
+      #print(df.head())
       title = df.iloc[0, 0]
       print(title)
       for i in range(1, 8):
         col = df.iloc[3:103, i].to_list()
         plt.plot(xax, col, color=colors[i])
+        #avg = df.iloc[103, i]
+        #plt.axhline(avg, color=colors[i], linestyle='--')
       plt.title(title)
       plt.legend(['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3'], 
                  bbox_to_anchor = (1.175, 0.5), loc='center right')
