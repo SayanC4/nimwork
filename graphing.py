@@ -25,7 +25,7 @@ if __name__ == "__main__":
       for i in range(1, 8):
         col = df.iloc[3:103, i].to_list()
         plt.plot(xax, col, color=colors[i])
-      plt.title = title
+      plt.title(title)
       plt.grid(axis='both', color='0.75')
       plt.legend(['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3'], 
                  bbox_to_anchor = (1.175, 0.5), loc='center right')
