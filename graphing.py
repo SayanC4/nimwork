@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.colors as clr
 import pandas as pd
 #dfs = [pd.read_csv("./csvs/Random {1, 2, 3}.csv", header=None)]
 dfs = [
@@ -7,8 +8,55 @@ dfs = [
     "Clever {1, 3, 4}", "Random {1, 3, 4}"
   ]
 ]
+titles = [
+  "Clever, {1, 2, 3}",
+  "Random, {1, 2, 3}",
+  "Clever, {1, 3, 4}",
+  "Random, {1, 3, 4}"
+]
+rolling = 0
 
 if __name__ == "__main__":
+  # Heatmap: in col. idx vs. in row idx
+  for (frame, title) in zip(dfs, titles):
+    avgs = frame.iloc[104:112, 0:8]
+    title = f"Win Rate Deviance - {title}, 100 - 10,000"
+    #title = f"Avg. Win Rates - {title}, 100 - 10,000"
+    avg_bare = avgs.iloc[1:, 1:].astype(float)
+    players = [x / 10 for x in range(9, 2, -1)]
+    ticks = range(len(players))
+    #"""
+    avg_t = pd.DataFrame(
+      avg_bare.values.T, 
+      index=avg_bare.index, 
+      columns=avg_bare.columns)
+    deviance = 1 - (avg_bare + avg_t)
+    #"""
+    fig, ax = plt.subplots()
+    norm = clr.Normalize(vmin=deviance.min().min(),
+                         vmax=deviance.max().max())
+    #print(norm.vmax)
+    #print(f"{deviance.min().min()} - {deviance.max().max()}")
+    im = ax.imshow(deviance, cmap="coolwarm", norm=norm)
+    ax.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
+    ax.set_xticks(ticks, labels=players)
+    ax.set_yticks(ticks, labels=players)
+    cmat = im.cmap(im.norm(im.get_array()))
+    d_one = pd.concat(deviance[x] for x in deviance).sort_values()
+    rolling += 0.25 * d_one.mean()
+    for i in ticks:
+      for j in ticks:
+        #val = avg_bare.iloc[i, j]
+        val = deviance.iloc[i, j]
+        text = ax.text(j, i, f"{val:.3f}", ha="center", va="center", 
+                       #color='k' if val > 0.25 and val < 0.75 else 'w')
+                       #color='k' if q[0.25] < val and val < q[0.75] else 'w')
+                       color='k' if sum(cmat[i, j][:3]) / 3 > 0.55 else 'w')
+    ax.set_title(title)
+    plt.savefig(f"graphs/{title}.png")
+    plt.clf()
+print(rolling)
+""" Line graphs
   xax = range(100, 10001, 100)
   colors = ['darkgreen', 'maroon', 'deepskyblue', 
             'goldenrod', 'magenta', 'teal', 'orangered']
@@ -41,3 +89,4 @@ if __name__ == "__main__":
       plt.subplots_adjust(left=0.075, right=0.85, top=0.9, bottom=0.1)
       plt.savefig(f"graphs/{title}.png")
       plt.clf()
+  """
