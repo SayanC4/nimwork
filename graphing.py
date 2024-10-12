@@ -17,6 +17,7 @@ titles = [
 rolling = 0
 
 if __name__ == "__main__":
+  """
   # Heatmap: in col. idx vs. in row idx
   for (frame, title) in zip(dfs, titles):
     avgs = frame.iloc[104:112, 0:8]
@@ -25,13 +26,13 @@ if __name__ == "__main__":
     avg_bare = avgs.iloc[1:, 1:].astype(float)
     players = [x / 10 for x in range(9, 2, -1)]
     ticks = range(len(players))
-    #"""
+    #"#""
     avg_t = pd.DataFrame(
       avg_bare.values.T, 
       index=avg_bare.index, 
       columns=avg_bare.columns)
     deviance = 1 - (avg_bare + avg_t)
-    #"""
+    #"#""
     fig, ax = plt.subplots()
     norm = clr.Normalize(vmin=deviance.min().min(),
                          vmax=deviance.max().max())
@@ -55,8 +56,9 @@ if __name__ == "__main__":
     ax.set_title(title)
     plt.savefig(f"graphs/{title}.png")
     plt.clf()
-print(rolling)
-""" Line graphs
+    """
+#print(rolling)
+#""" Line graphs
   xax = range(100, 10001, 100)
   colors = ['darkgreen', 'maroon', 'deepskyblue', 
             'goldenrod', 'magenta', 'teal', 'orangered']
@@ -75,7 +77,7 @@ print(rolling)
         col = df.iloc[3:103, i].astype("float").to_list()
         #print(col[0:20])
         plt.plot(xax, col, color=colors[i - 1])
-        print(df.iloc[102, i])
+        #print(df.iloc[102, i])
         #plt.axhline(float(df.iloc[102, i]), xmin=100, xmax=10000, color=colors[i], # Error here
         #  label="_nolegend_", linestyle="--")
       #print(len(df.iloc[102, 1:8].astype("float").to_list()))
@@ -89,4 +91,4 @@ print(rolling)
       plt.subplots_adjust(left=0.075, right=0.85, top=0.9, bottom=0.1)
       plt.savefig(f"graphs/{title}.png")
       plt.clf()
-  """
+#  """
