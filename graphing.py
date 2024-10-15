@@ -20,8 +20,11 @@ if __name__ == "__main__":
   """
   # Heatmap: in col. idx vs. in row idx
   for (frame, title) in zip(dfs, titles):
-    avgs = frame.iloc[104:112, 0:8]
-    title = f"Win Rate Deviance - {title}, 100 - 10,000"
+    vals = frame.iloc[2:104]
+    vals.columns = frame.iloc[1]
+    #avgs = frame.iloc[104:112, 0:8]
+    title = f"CV - {title}, 100 - 10,000"
+    #title = f"Win Rate Deviance - {title}, 100 - 10,000"
     #title = f"Avg. Win Rates - {title}, 100 - 10,000"
     avg_bare = avgs.iloc[1:, 1:].astype(float)
     players = [x / 10 for x in range(9, 2, -1)]
@@ -56,7 +59,7 @@ if __name__ == "__main__":
     ax.set_title(title)
     plt.savefig(f"graphs/{title}.png")
     plt.clf()
-    """
+  """
 #print(rolling)
 #""" Line graphs
   xax = range(100, 10001, 100)
@@ -68,11 +71,13 @@ if __name__ == "__main__":
       plt.gca().set_xlim([100, 10000])
       plt.gca().set_ylim([0.0, 1.0])
       plt.grid(axis='both', color='0.75')
+      plt.gca().set_xlabel("Heap Size", fontsize=10, labelpad=5)
+      plt.gca().set_ylabel("Player I Win Rate", fontsize=10, labelpad=5)
       #plt.axes().set_prop_cycle(color=colors)
       df = frame.iloc[:104, 8*x:8*(x+1)]
       #print(df.head())
       title = df.iloc[0, 0]
-      print(title)
+      #print(title)
       for i in range(1, 8):
         col = df.iloc[3:103, i].astype("float").to_list()
         #print(col[0:20])
@@ -85,10 +90,12 @@ if __name__ == "__main__":
       plt.hlines(y=df.iloc[102, 1:8].astype("float").T, 
                  xmin=100, xmax=10000, color=colors, 
                  label="__nolegend__", linestyle="--", alpha=0.5)
-      plt.title(title)
+      plt.title(title[:12] + 'accuracy ' + title[12:])
       plt.legend(['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3'], 
-                bbox_to_anchor = (1.175, 0.5), loc='center right')
-      plt.subplots_adjust(left=0.075, right=0.85, top=0.9, bottom=0.1)
+                bbox_to_anchor = (1.185, 0.5), loc='center right',
+                title="Opponent\nAccuracy")
+      plt.subplots_adjust(left=0.11, right=0.85, top=0.92, bottom=0.12)
       plt.savefig(f"graphs/{title}.png")
       plt.clf()
-#  """
+# """
+  plt.close('all')
