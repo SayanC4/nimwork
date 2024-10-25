@@ -18,7 +18,7 @@ titles = [
 rolling = 0
 
 if __name__ == "__main__":
-  #"""
+  """
   # Heatmap: in col. idx vs. in row idx
   for (frame, title) in zip(dfs, titles):
     vals = frame.iloc[2:104]
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     #  index=avg_bare.index, 
     #  columns=avg_bare.columns)
     #deviance = 1 - (avg_bare + avg_t)
-    #"""
+    #""/"
     
     fig, ax = plt.subplots()
     norm = clr.Normalize(vmin=cvs.min().min(),
@@ -69,9 +69,9 @@ if __name__ == "__main__":
     ax.set_title(title)
     plt.savefig(f"graphs/{title}.png")
     plt.clf()
-  #"""
+  """
   #print(rolling)
-  """ Line graphs
+  #""" Line graphs
   xax = range(100, 10001, 100)
   colors = ['darkgreen', 'maroon', 'deepskyblue', 
             'goldenrod', 'magenta', 'teal', 'orangered']
@@ -107,5 +107,5 @@ if __name__ == "__main__":
       plt.subplots_adjust(left=0.11, right=0.85, top=0.92, bottom=0.12)
       plt.savefig(f"graphs/{title}.png")
       plt.clf()
-"""
+#"""
   plt.close('all')
