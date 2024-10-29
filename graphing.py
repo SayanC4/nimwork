@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as clr
 import pandas as pd
 import statistics as st
+import math
 #dfs = [pd.read_csv("./csvs/Random {1, 2, 3}.csv", header=None)]
 dfs = [
   pd.read_csv(f"./csvs/{game}.csv", header=None) for game in [
@@ -9,6 +10,7 @@ dfs = [
     "Clever {1, 3, 4}", "Random {1, 3, 4}"
   ]
 ]
+fndf = pd.read_csv("./csvs/Sqrt.csv", header=None)
 titles = [
   "Clever, {1, 2, 3}",
   "Random, {1, 2, 3}",
@@ -18,6 +20,36 @@ titles = [
 rolling = 0
 
 if __name__ == "__main__":
+  xax = range(1001)
+  yticks = range(1, 141, 10)
+  colors = ['darkgreen', 'darkgreen', 'orangered', 
+            'orangered', 'deepskyblue', 'deepskyblue']
+  sqrtctwo = fndf.iloc[:, 2]
+  sqrt = [math.pow(i, 0.5) for i in xax]
+  cbrtctwo = fndf.iloc[:, 9]
+  cbrt = [math.pow(i, 1/3) for i in xax]
+  logectwo = fndf.iloc[:, 12]
+  loge = [0]
+  loge.extend([math.log(i) for i in xax[1:]])
+  print(loge)
+  plt.gca().set_xlim([1, 1000])
+  plt.gca().set_ylim([0, 140])
+  plt.gca().set_yticks(yticks)
+  plt.grid(axis='both', color='0.75')
+  plt.gca().set_xlabel("Heap Size", fontsize=10, labelpad=5)
+  plt.gca().set_ylabel("Cumulative II-positions", fontsize=10, labelpad=5)
+  fs = [sqrtctwo, sqrt, cbrtctwo, cbrt, logectwo, loge]
+  for i, f in enumerate(fs):
+    style = "--" if i % 2 else "solid"
+    if type(f) is list:
+      print(f[-1])
+    else:
+      print(f.iloc[-1])
+    plt.plot(xax, f, color=colors[i], linestyle=style)
+  plt.legend(['x^0.5 IIs', 'x^0.5', 'x^(1/3) IIs', 'x^(1/3)', 'ln(x) IIs', 'ln(x)'], 
+                bbox_to_anchor = (1.1, 0.65), loc='center right')
+  plt.savefig("graphs/F(n).png")
+  plt.clf()
   """
   # Heatmap: in col. idx vs. in row idx
   for (frame, title) in zip(dfs, titles):
@@ -71,7 +103,7 @@ if __name__ == "__main__":
     plt.clf()
   """
   #print(rolling)
-  #""" Line graphs
+  """ Line graphs
   xax = range(100, 10001, 100)
   colors = ['darkgreen', 'maroon', 'deepskyblue', 
             'goldenrod', 'magenta', 'teal', 'orangered']
